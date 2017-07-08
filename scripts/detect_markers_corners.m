@@ -1,11 +1,11 @@
 clear;
 clc;
 tic
-image=imread('C:\Users\JAI\Desktop\Markers\run_30\Cam1\Cam1RH_Seq30_11h22m18s725ms_0000.bmp');
+image=imread('E:\GAC_Files\PW6glider\03_MEASUREMENT_images\cam_1\frame_000192.bmp');
 [imageWidth,imageHeight]=size(image);
 aspectRatio=int64(imageWidth/imageHeight);
-xcornerguess=220;
-ycornerguess=1172;
-cascadeDetectorFilePath='C:\Users\JAI\Desktop\Markers\XML_Lists\markerDetector.xml';
+xcornerguess=176;
+ycornerguess=198;
+cascadeDetectorFilePath='E:\GitHub\Masters_Work\XML_Files\markerDetector.xml';
 markerCornerGuess=marker_detection(image,imageWidth,imageHeight,aspectRatio,xcornerguess,ycornerguess,cascadeDetectorFilePath);
 toc

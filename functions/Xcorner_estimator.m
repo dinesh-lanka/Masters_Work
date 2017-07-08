@@ -2,7 +2,6 @@ function [xcornerguess,ycornerguess] = Xcorner_estimator(image)
 %XCORNER_ESTIMATOR Summary of this function goes here
 %   Detailed explanation goes here
 % I=im2double(imadjust(rgb2gray(image)));
-
 % I=im2double(imadjust(rgb2gray(image)));
 I=im2double(imadjust((image)));
 sigma=5;
