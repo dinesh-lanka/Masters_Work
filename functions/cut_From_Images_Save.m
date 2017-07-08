@@ -1,5 +1,5 @@
 function cut_From_Images_Save(folderPath,saveFilePath,listToFilesInFolder,startImage,endImage)
-
+% using parallel loop
 parfor i=startImage:endImage
     filepath=[folderPath listToFilesInFolder(i).name];
     I=imread(filepath);
