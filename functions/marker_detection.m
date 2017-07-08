@@ -12,7 +12,7 @@ markerDetected=0;
 box=[0,0,0,0];
 
 
-while (markerDetected~=1) && (searchWindowSize<50)
+while (markerDetected~=1) && (searchWindowSize<80)
     
     xstartlimit=xcornerguess-searchWindowSize;
     ystartlimit=(aspectRatio*ycornerguess)-searchWindowSize;
