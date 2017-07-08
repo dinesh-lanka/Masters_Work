@@ -44,9 +44,12 @@ while (markerDetected~=1) && (searchWindowSize<50)
         y1=box(1,2);
         y2=box(1,2)+box(1,3);
         
-        I=searchWindow(x1:x2,y1:y2);
-        [xcorner,ycorner]=Xcorner_estimator(I);
-        %figure,imshow(I);
+        I=searchWindow(y1:y2,x1:x2);
+%         [xcorner,ycorner]=Xcorner_estimator(I);
+        s=size(I);
+        xcorner=s(1,1)/2;
+        ycorner=s(1,2)/2;
+        figure,imshow(I);
         hold on;
         plot(xcorner,ycorner,'r*');
         clear xcorner ycorner;

@@ -9,7 +9,7 @@ x=-30:0.5:30;
 y=x;
 [X,Y]=meshgrid(x,y);
 
-Ic=((I));
+Ic=(medfilt2(I));
 figure, imshow(Ic);
 
 g = 1/(2*pi*sigma^2).*exp((-(X.^2+Y.^2)./(2*sigma^2)));
