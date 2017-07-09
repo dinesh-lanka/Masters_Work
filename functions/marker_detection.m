@@ -1,13 +1,31 @@
-function cornerGuessPoints = marker_detection(image,imageWidth,imageHeight,aspectRatio,xcornerguess,ycornerguess,cascadeDetectorFilePath)
+function cornerGuessPoints = marker_detection(image,xcornerguess,ycornerguess,cascadeDetectorFilePath)
 %MARKER_DETECTION Summary of this function goes here
-%   Detailed explanation goes here
+% This function validates if the marker exists around the corner mentioned
+% here and returns an initial guess of the marker x-corner.
+
+%Detailed explanation goes here
+% Function arguments significance
+% image: The image in which the marker must be detected
+% xcornerguess: The initial x-coordinate guess of the marker x-corner
+% ycornerguess: The initial y-coordinate guess of the marker x-corner
+% cascadeDetectorFilePath: The file path of the XML generated from cascade
+% training for object detection.
+
+[imageWidth,imageHeight]=size(image);
+% aspectRatio=int64(imageWidth/imageHeight);
+% The aspect ratio is for future use
+aspectRatio=1;
 % The imread function of matlab reads the image as height by width and
 % hence the original points from the real image are actually inverted. This
-% is the reason the points are used in a reverse manner.
+% is the reason the points are used in a reverse manner. However the final
+% corner points are returned in a correct order such that the function
+% could directly be used. Few of the steps and numerical values were
+% developed based on a trial & error approach.
 temp=xcornerguess;
 xcornerguess=ycornerguess;
 ycornerguess=temp;
 clear temp;
+
 % Calling the marker detection function
 detector=vision.CascadeObjectDetector(cascadeDetectorFilePath);
 % detector.MergeThreshold=10;
@@ -44,8 +62,8 @@ while (markerDetected~=1) && (searchWindowSize<80)
     searchWindow=image(xstartlimit:xendlimit,ystartlimit:yendlimit);
     box=step(detector,searchWindow);
     if ~isempty(box)
-    %detectedImg=insertObjectAnnotation(searchWindow,'rectangle',box, '*');
-    %figure, imshow(detectedImg);
+        %detectedImg=insertObjectAnnotation(searchWindow,'rectangle',box, '*');
+        %figure, imshow(detectedImg);
         markerDetected=1;
         x1=box(1,1);
         x2=box(1,1)+box(1,3);
@@ -61,8 +79,8 @@ while (markerDetected~=1) && (searchWindowSize<80)
         %         plot(xcorner,ycorner,'r*');
         xrealcornerguess=xstartlimit+box(1,2)+xcorner;
         yrealcornerguess=ystartlimit+box(1,1)+ycorner;
-        cornerGuessPoints(1,1)=xrealcornerguess-2;
-        cornerGuessPoints(1,2)=yrealcornerguess-(2*aspectRatio);
+        cornerGuessPoints(1,1)=yrealcornerguess-(2*aspectRatio);
+        cornerGuessPoints(1,2)=xrealcornerguess-(2);
     else
         markerDetected=0;
         
