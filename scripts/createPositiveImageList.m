@@ -1,6 +1,6 @@
 clear;
 clc;
-folderPath='C:\Users\JAI\Desktop\Markers\Positive\';
+folderPath='E:\GAC_Files\Positive\';
 filePattern=fullfile(folderPath,'*.png');
 images=dir(filePattern);
 len=length(images);
@@ -10,6 +10,6 @@ for i=1:len
     info(i).objectBoundingBoxes=[1,1,99,99];
 end
 
-save(fullfile('C:\Users\JAI\Desktop\Markers\XML_Lists\','positiveimagelist'),'info');
+save(fullfile('E:\GitHub\Masters_Work\XML_Files\','positiveimagelist'),'info');
 clear;
 
