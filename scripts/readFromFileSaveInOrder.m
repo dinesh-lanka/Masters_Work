@@ -10,7 +10,7 @@ tic
 for i=1:numOfImages
     image=imageList(i).name;
     I=imread([folderPath image]);
-%     I=imrotate(I,90);
+    I=imrotate(I,180);
     filename=[folderPath 'NI_' num2str(i+numOfImages,'%d') '.PNG'];
     imwrite(I,filename);
 end;
