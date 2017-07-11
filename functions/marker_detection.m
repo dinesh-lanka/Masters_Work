@@ -36,7 +36,7 @@ markerDetected=0;
 box=[0,0,0,0];
 
 % Running a while loop until the window size becomes 160-by-160 window
-while (markerDetected~=1) && (searchWindowSize<80)
+while (markerDetected~=1) && (searchWindowSize<40)
     %     Since the image hass an aspect ratio, a square window cannot be
     %     used to search. Hence,a rectangular window determined by the
     %     aspect ratio is used. However now only the aspect ratio is given
