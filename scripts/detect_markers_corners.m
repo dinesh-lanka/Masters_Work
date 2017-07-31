@@ -13,7 +13,7 @@ initialcpsfilelocation='E:\GAC_Files\run_30\cps\cam_2\';
 newcpsfilelocation='E:\GAC_Files\Test_Runs\Cobrawing\cam_2\';
 % Giving the images to be read
 startImage=1;
-endImage=720;
+endImage=1;
 % Detecting the corners for all the markers
 x_corner_guesssing(folderPathforImages,startImage,endImage,cascadeDetectorFilePath,initialcpsfilelocation,newcpsfilelocation);
 toc

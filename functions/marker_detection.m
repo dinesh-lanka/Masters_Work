@@ -1,5 +1,5 @@
 function cornerGuessPoints = marker_detection(image,xcornerguess,ycornerguess,cascadeDetectorFilePath)
-%MARKER_DETECTION Summary of this function goes here
+%MARKER_DETECTION_OPENCV Summary of this function goes here
 % This function validates if the marker exists around the corner mentioned
 % here and returns an initial guess of the marker x-corner.
 
@@ -25,16 +25,12 @@ temp=xcornerguess;
 xcornerguess=ycornerguess;
 ycornerguess=temp;
 clear temp;
-
-% Calling the marker detection function
-detector=vision.CascadeObjectDetector(cascadeDetectorFilePath);
-% detector.MergeThreshold=10;
-
+cd;
 % Initializing a search window of minimum size
 searchWindowSize=1;
 markerDetected=0;
 box=[0,0,0,0];
-
+cd 'Release';
 % Running a while loop until the window size becomes 160-by-160 window
 while (markerDetected~=1) && (searchWindowSize<40)
     %     Since the image hass an aspect ratio, a square window cannot be
@@ -60,10 +56,25 @@ while (markerDetected~=1) && (searchWindowSize<40)
     end
     
     searchWindow=image(xstartlimit:xendlimit,ystartlimit:yendlimit);
-    box=step(detector,searchWindow);
-    if ~isempty(box)
+    % Call for the OpenCV-C++ marker detection script
+    % Creating a temporary directory
+    mkdir 'temp';
+    % Creating a file for writing the detected marker points     
+    dataFilePath = [cd '\temp' '\' 'markerPosition_Data.txt'];
+    searchImageFile = [cd '\temp' '\' 'temp.png'];
+    % Saving the image in temp for detecting marker     
+    imwrite(searchWindow,searchImageFile);
+    
+    command = strcat('MarkerDetection.exe',32,searchImageFile,32,...
+        cascadeDetectorFilePath,32,dataFilePath);
+    [status,cout] = system(command);    
+    filedatacheck = dir(dataFilePath);
+  
+    if ~isempty(box)&&(status==1)&&(filedatacheck.bytes>0)
         %detectedImg=insertObjectAnnotation(searchWindow,'rectangle',box, '*');
         %figure, imshow(detectedImg);
+        fileID = fopen(dataFilePath,'w');
+        box =textscan(fileID,'%d\t %d\t %d\t %d\t ');
         markerDetected=1;
         x1=box(1,1);
         x2=box(1,1)+box(1,3);
@@ -85,10 +96,14 @@ while (markerDetected~=1) && (searchWindowSize<40)
         markerDetected=0;
         
     end
+    % Removing the temporary directory    
+%     fclose(fileID);
+%     rmdir 'temp';
 end
 
 if isempty(box)
     cornerGuessPoints=[ycornerguess,xcornerguess];
     warning('Marker not found. Assigning the initial search entry.');
+
 end
 
