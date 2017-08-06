@@ -2,7 +2,7 @@ clear;
 clc;
 tic
 % Suppressing all warnings
-warning('off','all');
+% warning('off','all');
 % Path of cascade trained file
 cascadeDetectorFilePath='E:\GitHub\Masters_Work\XML_Files\markerDetector.xml';
 % Reading the image

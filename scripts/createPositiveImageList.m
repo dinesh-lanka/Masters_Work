@@ -1,6 +1,7 @@
 clear;
 clc;
-folderPath='E:\GAC_Files\Markers\Markers_With_White_Backgrounds\Positive_Images\';
+tic
+folderPath='E:\GAC_Files\Markers\Markers_With_Black_Backgrounds\Positive_Images\';
 filePattern=fullfile(folderPath,'*.png');
 images=dir(filePattern);
 len=length(images);
@@ -10,6 +11,6 @@ for i=1:len
     info(i).objectBoundingBoxes=[1,1,99,99];
 end
 
-save(fullfile('E:\GitHub\Masters_Work\XML_Files\','positiveImageListMarkersWithWhiteBG'),'info');
+save(fullfile('E:\GitHub\Masters_Work\XML_Files\','positiveImageListMarkersWithBlackBG'),'info');
 clear;
-
+toc

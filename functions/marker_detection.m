@@ -27,10 +27,10 @@ ycornerguess=temp;
 clear temp;
 cd;
 % Initializing a search window of minimum size
-searchWindowSize=1;
+searchWindowSize=5;
 markerDetected=0;
 box=[0,0,0,0];
-cd 'Release';
+
 % Running a while loop until the window size becomes 160-by-160 window
 while (markerDetected~=1) && (searchWindowSize<40)
     %     Since the image hass an aspect ratio, a square window cannot be
@@ -64,10 +64,12 @@ while (markerDetected~=1) && (searchWindowSize<40)
     searchImageFile = [cd '\temp' '\' 'temp.png'];
     % Saving the image in temp for detecting marker     
     imwrite(searchWindow,searchImageFile);
-    
+    % Change the directory to the location of the MarkerDetection.exe file     
+    cd 'Release';
     command = strcat('MarkerDetection.exe',32,searchImageFile,32,...
         cascadeDetectorFilePath,32,dataFilePath);
-    [status,cout] = system(command);    
+    [status,cout] = system(command); 
+    warning(cout);
     filedatacheck = dir(dataFilePath);
   
     if ~isempty(box)&&(status==1)&&(filedatacheck.bytes>0)
