@@ -1,12 +1,12 @@
 clear;
 tic
 % Reading images
-folderPathofImages = 'E:\GAC_Files\Markers\Markers_With_Black_Backgrounds\Negative_Images';
+folderPathofImages = 'E:\GAC_Files\Markers\Markers_With_White_Backgrounds\Negative_Images';
 filesToReadType = fullfile(folderPathofImages,'*.PNG');
 Images = dir(filesToReadType);
 noOfImages = length(Images);
 % For saving inverted images
-filePathToSave = 'E:\GAC_Files\Markers\Markers_With_White_Backgrounds\Negative_Images';
+filePathToSave = 'E:\GAC_Files\Markers\Markers_With_Black_Backgrounds\Negative_Images';
 filesInNewPath = fullfile(filePathToSave,'*.PNG');
 ImagesInNewPath = dir(filesInNewPath);
 noOfImagesInNewPath = length(ImagesInNewPath);
