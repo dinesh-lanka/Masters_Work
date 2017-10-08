@@ -1,22 +1,22 @@
-function cornerGuess = ChESS_algortihm( I )
+function cornerGuess = ChESS_algortihm( I,c2 )
 %CHESS_ALGORTIHM Summary of this function goes here
 %   Detailed explanation goes here
 H = fspecial('gaussian',[5 5],2);
 r = 10;
 n = r/5;
 % I = rgb2gray(imread('E:\GAC_Files\Markers\SVMTraining\whiteMarker\27.PNG'));
-I2 = imfilter(I,H);
-[x,y,~,c1]=imextrema(I2);
+I = imfilter(I,H);
+% [x,y,~,c1]=imextrema(I2);
 imageSize = size(I);
-c2=[x(c1==0),y(c1==0)];
-% c2=0;
-if numel(c2)<2
-    c2=corner(I);
-end
+% c2=[x(c1==0),y(c1==0)];
+% % c2=0;
+% if numel(c2)<2
+%     c2=corner(I);
+% end
 figure,contourf(I,40),hold on, plot(c2(:,1),c2(:,2),'ro');
 flag=0;
 for i=1:numel(c2)/2
-    if c2(i,1)>15 && c2(i,1)<imageSize(1)-15 && c2(i,2)>15 && c2(i,2)<imageSize(2)-15
+    if c2(i,1)>=10 && c2(i,1)<=imageSize(1)-10 && c2(i,2)>=10 && c2(i,2)<=imageSize(2)-10
         flag=flag+1;
         c(flag,:) = [c2(i,1),c2(i,2)];
     end
