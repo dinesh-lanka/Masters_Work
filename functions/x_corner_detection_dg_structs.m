@@ -96,6 +96,7 @@ for i = 1 :numel(xn)
     if (dotPattern==true && boolCPSrefine==true)
         H = fspecial('gaussian',[3,3],2);
         I=I_conv;
+        cornerGuessFromChESS = ChESSalgorithm(I);
         I=imfilter(I,H);
         k = 5;
         n = ((k)*2)+1;
@@ -114,16 +115,18 @@ for i = 1 :numel(xn)
         globalmaxima_X = index(globalmaxima_Y);
         yglobalmaxima_Y = yguess+globalmaxima_Y-((width_y-delta)+1)-psize;
         xglobalmaxima_X = xguess+globalmaxima_X-((width_x-delta)+1)-psize;
-%         figure , contourf(I_conv,40);
-%         set(gcf, 'units','normalized','outerposition',[0 0 1 1]);
-%         hold on, plot(globalmaxima_X,globalmaxima_Y,'r^','LineWidth',2,'MarkerEdgeColor','k','MarkerFaceColor','r','MarkerSize',10);
+        figure , contourf(I_conv,40);
+        set(gcf, 'units','normalized','outerposition',[0 0 1 1]);
+        hold on, plot(globalmaxima_X,globalmaxima_Y,'r^','LineWidth',2,'MarkerEdgeColor','k','MarkerFaceColor','r','MarkerSize',10);
+        hold on, plot(cornerGuessFromChESS(1),cornerGuessFromChESS(2),'rv','LineWidth',2,'MarkerEdgeColor','g','MarkerFaceColor','r','MarkerSize',10);
     end
     
 % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %
 
     [zfindy,zfindx,c,flag] = func_findcornerpeak_circle_new(Mat, I_conv_search, s_in, t_in, maxsubpixshift);
 %     figure , contourf(I_conv_search,40);
-%     hold on, plot(zfindx,zfindy,'ro','LineWidth',2,'MarkerEdgeColor','r','MarkerFaceColor','y','MarkerSize',8);
+    hold on, plot(zfindx+delta,zfindy+delta,'ro','LineWidth',2,'MarkerEdgeColor','r','MarkerFaceColor','y','MarkerSize',8);
+    hold on, plot(zfindx+delta,zfindy+delta,'ro','LineWidth',2,'MarkerEdgeColor','r','MarkerFaceColor','y','MarkerSize',8);
       
     ynull(:,i) = yguess+zfindy-((width_y-delta)+1)-psize;
     xnull(:,i) = xguess+zfindx-((width_x-delta)+1)-psize;
@@ -170,7 +173,7 @@ for i = 1 :numel(xn)
         end
         
     end
-%     close;
+    close;
 % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % %     
 
 end
