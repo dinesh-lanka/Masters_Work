@@ -4,9 +4,9 @@ function [ maximaValues, LmaximasIndexes, minimaValues, LminimasIndexes, pointsO
 % Getting points on the perimeter of the circle
 H = fspecial('gaussian',[3 3],2);
 I =imfilter(I,H);
-if flag
-    I =im2bw(I);
-end
+% if flag
+%     I =im2bw(I);
+% end
 theta = 0 : 15 : 359;
 x = ((r * cos(theta) + cX)).';
 y = ((r * sin(theta) + cY)).';
@@ -18,9 +18,10 @@ for i = 1:25
     pointsOnCircleArranged(i,:) = pointsOnCircle(j,:);
 end
 
-figure, imshow(I),hold on,plot(pointsOnCircleArranged(:,1),pointsOnCircleArranged(:,2),'g*'),grid on;
+% figure, imshow(I),
+% hold on,plot(pointsOnCircleArranged(:,1),pointsOnCircleArranged(:,2),'g*'),grid on;
 for i=1:numel(pointsOnCircleArranged)/2
-    intensity(1,i) = I(int16(pointsOnCircleArranged(i,1)),int16(pointsOnCircleArranged(i,2)));
+    intensity(1,i) = I(int16(pointsOnCircleArranged(i,2)),int16(pointsOnCircleArranged(i,1)));
 end
 
 sGrad = gradient(double(intensity));
