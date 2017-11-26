@@ -22,7 +22,7 @@ function varargout = gui_Cascade_Training(varargin)
 
 % Edit the above text to modify the response to help gui_Cascade_Training
 
-% Last Modified by GUIDE v2.5 17-Sep-2017 22:04:07
+% Last Modified by GUIDE v2.5 26-Nov-2017 20:29:47
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -59,8 +59,44 @@ set(handles.edit_image_folder_path,'string',handles.value_edit_image_folder_path
 handles.value_edit_progress_bar = 'Cascade Trainer started';
 set(handles.edit_progress_bar,'string',handles.value_edit_progress_bar);
 handles.image_type = 'bmp';
+handles.value_edit_number_of_training_stages = 20;
+handles.image_training_size = 20;
+handles.value_edit_negative_samples_factor = 10;
+handles.feature_type = 'LBP';
+handles.value_true_positive_rate = 0.999;
+handles.value_false_alarm_rate = 0.1;
 handles.value_edit_destination_folder = cd;
 set(handles.edit_destination_folder,'string',handles.value_edit_destination_folder);
+
+% Help text
+helpText_select_PositiveImagesFolder = sprintf('Select the absolute path of object or positive samples (images) folder');
+set(handles.pushbutton_select_folder_path,'TooltipString',helpText_select_PositiveImagesFolder);
+helpText_select_PositiveListDestination = sprintf('Select the absolute path of folder to save the positive image list');
+set(handles.pushbutton_select_destination_folder_path,'TooltipString',helpText_select_PositiveListDestination);
+helpText_createImageList = sprintf('Click this to generate the positive image list');
+set(handles.pushbutton_create_image_list,'TooltipString',helpText_createImageList);
+helpText_select_backgroundImages = sprintf('Select the absolute path of folder containing the background images');
+set(handles.pushbutton_select_background_images,'TooltipString',helpText_select_backgroundImages);
+helpText_select_classifierDestination = sprintf('Select the absolute path of folder to which the generated classsifier must be saved');
+set(handles.pushbutton_select_classifier_destination,'TooltipString',helpText_select_classifierDestination);
+helpText_start_classifierTraining = sprintf('Please check if all the fields are correctly filled before initiating the classifier learning process');
+set(handles.pushbutton_initiate_cascade_training,'TooltipString',helpText_start_classifierTraining);
+helpText_edit_imageListFilename = sprintf('Clear the contents and enter a filename for the positive image list');
+set(handles.edit_imageList_filename,'TooltipString',helpText_edit_imageListFilename);
+helpText_edit_classsifierFilename = sprintf('Clear the contents and enter a filename for the object classifier');
+set(handles.edit_classifier_filename,'TooltipString',helpText_edit_classsifierFilename);
+helpText_edit_truePositiveRate = sprintf('Clear the contents and enter a true positive rate. A value of 0.999 would yield better results.');
+set(handles.edit_true_positive_rate,'TooltipString',helpText_edit_truePositiveRate);
+helpText_edit_falseAlarmRate = sprintf('Clear the contents and enter a false alarm rate. A value of 0.1 would yield better results.');
+set(handles.edit_false_alarm_rate,'TooltipString',helpText_edit_falseAlarmRate);
+helpText_featuretype = sprintf('Select LBP to reduce the training time');
+set(handles.popupmenu_feature_type,'TooltipString',helpText_featuretype);
+helpText_trainingImageSize = sprintf('Select 20 to reduce the training time');
+set(handles.popupmenu_traning_image_size,'TooltipString',helpText_trainingImageSize);
+helpText_trainingStages = sprintf('Enter 20 to get a better classifier');
+set(handles.edit_number_of_training_stages,'TooltipString',helpText_trainingStages);
+helpText_negativeSamplesRatio = sprintf('Enter a value between 5 to 10 to get a better classifier');
+set(handles.edit_negative_samples_factor,'TooltipString',helpText_negativeSamplesRatio);
 % Update handles structure
 guidata(hObject, handles);
 
@@ -350,7 +386,7 @@ function pushbutton_initiate_cascade_training_Callback(hObject, eventdata, handl
 % handles    structure with handles and user data (see GUIDATA)
 handles.value_edit_progress_bar = 'Classifier training started. This may take upto several hours depending on training parameters.';
 set(handles.edit_progress_bar,'string',handles.value_edit_progress_bar);
-cascadeTraining(handles.value_edit_image_list_absolute_path,handles.value_edit_classifier_destination_path,handles.value_edit_image_folder_path,handles.value_edit_background_images_folder_path,handles.value_edit_number_of_training_stages,handles.value_edit_classifier_filename,handles.value_edit_negative_samples_factor);
+cascadeTraining(handles.value_edit_image_list_absolute_path,handles.value_edit_classifier_destination_path,handles.value_edit_image_folder_path,handles.value_edit_background_images_folder_path,handles.value_edit_number_of_training_stages,handles.value_edit_classifier_filename,handles.value_edit_negative_samples_factor,handles.image_training_size,handles.value_false_alarm_rate,handles.value_true_positive_rate,handles.feature_type);
 handles.value_edit_progress_bar = 'Classifier training completed. Classifier generated and saved';
 set(handles.edit_progress_bar,'string',handles.value_edit_progress_bar);
 guidata(hObject,handles);
@@ -427,6 +463,116 @@ guidata(hObject,handles);
 % --- Executes during object creation, after setting all properties.
 function edit_negative_samples_factor_CreateFcn(hObject, eventdata, handles)
 % hObject    handle to edit_negative_samples_factor (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+
+% --- Executes on selection change in popupmenu_traning_image_size.
+function popupmenu_traning_image_size_Callback(hObject, eventdata, handles)
+% hObject    handle to popupmenu_traning_image_size (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: contents = cellstr(get(hObject,'String')) returns popupmenu_traning_image_size contents as cell array
+%        contents{get(hObject,'Value')} returns selected item from popupmenu_traning_image_size
+contents = cellstr(get(hObject,'String'));
+handles.image_training_size = contents{get(hObject,'Value')};
+handles.value_edit_progress_bar = 'Image Size for training selected';
+set(handles.edit_progress_bar,'string',handles.value_edit_progress_bar);
+guidata(hObject,handles);
+
+% --- Executes during object creation, after setting all properties.
+function popupmenu_traning_image_size_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to popupmenu_traning_image_size (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: popupmenu controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+
+% --- Executes on selection change in popupmenu_feature_type.
+function popupmenu_feature_type_Callback(hObject, eventdata, handles)
+% hObject    handle to popupmenu_feature_type (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: contents = cellstr(get(hObject,'String')) returns popupmenu_feature_type contents as cell array
+%        contents{get(hObject,'Value')} returns selected item from popupmenu_feature_type
+contents = cellstr(get(hObject,'String'));
+handles.feature_type = contents{get(hObject,'Value')};
+handles.value_edit_progress_bar = 'Feature descriptor type selected';
+set(handles.edit_progress_bar,'string',handles.value_edit_progress_bar);
+guidata(hObject,handles);
+
+
+% --- Executes during object creation, after setting all properties.
+function popupmenu_feature_type_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to popupmenu_feature_type (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: popupmenu controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+
+
+function edit_false_alarm_rate_Callback(hObject, eventdata, handles)
+% hObject    handle to edit_false_alarm_rate (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'String') returns contents of edit_false_alarm_rate as text
+%        str2double(get(hObject,'String')) returns contents of edit_false_alarm_rate as a double
+handles.value_false_alarm_rate = str2double(get(hObject,'String'));
+set(handles.edit_false_alarm_rate,'string',handles.value_false_alarm_rate);
+handles.value_edit_progress_bar = 'False Alarm Rate selected';
+set(handles.edit_progress_bar,'string',handles.value_edit_progress_bar);
+guidata(hObject,handles);
+
+
+% --- Executes during object creation, after setting all properties.
+function edit_false_alarm_rate_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to edit_false_alarm_rate (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+
+
+function edit_true_positive_rate_Callback(hObject, eventdata, handles)
+% hObject    handle to edit_true_positive_rate (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'String') returns contents of edit_true_positive_rate as text
+%        str2double(get(hObject,'String')) returns contents of edit_true_positive_rate as a double
+handles.value_true_positive_rate = str2double(get(hObject,'String'));
+set(handles.edit_true_positive_rate,'string',handles.value_true_positive_rate);
+handles.value_edit_progress_bar = 'True Positive Rate selected';
+set(handles.edit_progress_bar,'string',handles.value_edit_progress_bar);
+guidata(hObject,handles);
+
+% --- Executes during object creation, after setting all properties.
+function edit_true_positive_rate_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to edit_true_positive_rate (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    empty - handles not created until after all CreateFcns called
 
