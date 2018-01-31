@@ -22,7 +22,7 @@ function varargout = gui_Cascade_Training(varargin)
 
 % Edit the above text to modify the response to help gui_Cascade_Training
 
-% Last Modified by GUIDE v2.5 29-Jan-2018 19:23:32
+% Last Modified by GUIDE v2.5 31-Jan-2018 22:50:26
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -617,4 +617,192 @@ handles.value_edit_newimage_folder_path = setFolderPath;
 set(handles.edit_newimage_folder_path,'string',handles.value_edit_newimage_folder_path);
 handles.value_edit_progress_bar = 'Images directory for new images to be trained with, selected';
 set(handles.edit_progress_bar,'string',handles.value_edit_progress_bar);
+guidata(hObject, handles);
+
+
+% --- Executes on button press in checkbox_create_new_classifier.
+function checkbox_create_new_classifier_Callback(hObject, eventdata, handles)
+% hObject    handle to checkbox_create_new_classifier (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+% Hint: get(hObject,'Value') returns toggle state of checkbox_create_new_classifier
+handles.value_checkbox_create_new_classifier = get(hObject,'Value');
+if handles.value_checkbox_create_new_classifier == 1
+    set(handles.checkbox_create_new_from_old_classifier,'enable','off');
+    set(handles.text_newimages_folderpath,'enable','on');
+    set(handles.edit_newimage_folder_path,'enable','on');
+    set(handles.pushbutton_select_newfolder_path,'enable','on');
+    set(handles.text_new_image_type,'enable','on');
+    set(handles.popupmenu_select_new_image_type,'enable','on');
+    set(handles.edit_newimage_folder_path,'enable','on');
+else
+    set(handles.checkbox_create_new_from_old_classifier,'enable','on');
+    set(handles.text_newimages_folderpath,'enable','off');
+    set(handles.edit_newimage_folder_path,'enable','off');
+    set(handles.pushbutton_select_newfolder_path,'enable','off');
+    set(handles.text_new_image_type,'enable','off');
+    set(handles.popupmenu_select_new_image_type,'enable','off');
+    set(handles.edit_newimage_folder_path,'enable','off');
+end
+guidata(hObject, handles);
+
+% --- Executes on button press in checkbox_create_new_from_old_classifier.
+function checkbox_create_new_from_old_classifier_Callback(hObject, eventdata, handles)
+% hObject    handle to checkbox_create_new_from_old_classifier (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+% Hint: get(hObject,'Value') returns toggle state of checkbox_create_new_from_old_classifier
+handles.value_checkbox_create_new_from_old_classifier = get(hObject,'Value');
+if handles.value_checkbox_create_new_from_old_classifier == 1
+    set(handles.checkbox_create_new_classifier,'enable','off');    
+    set(handles.text_newimages_folderpath,'enable','on');
+    set(handles.edit_newimage_folder_path,'enable','on');
+    set(handles.pushbutton_select_newfolder_path,'enable','on');
+    set(handles.text_new_image_type,'enable','on');
+    set(handles.popupmenu_select_new_image_type,'enable','on');    
+    set(handles.text_images_folderpath,'enable','on');
+    set(handles.edit_image_folder_path,'enable','on');
+    set(handles.pushbutton_select_folder_path,'enable','on');
+    set(handles.text_image_type,'enable','on');
+    set(handles.popupmenu_select_image_type,'enable','on');    
+else
+    set(handles.checkbox_create_new_classifier,'enable','on');    
+    set(handles.text_newimages_folderpath,'enable','off');
+    set(handles.edit_newimage_folder_path,'enable','off');
+    set(handles.pushbutton_select_newfolder_path,'enable','off');
+    set(handles.text_new_image_type,'enable','off');
+    set(handles.popupmenu_select_new_image_type,'enable','off');    
+    set(handles.text_images_folderpath,'enable','off');
+    set(handles.edit_image_folder_path,'enable','off');
+    set(handles.pushbutton_select_folder_path,'enable','off');
+    set(handles.text_image_type,'enable','off');
+    set(handles.popupmenu_select_image_type,'enable','off');  
+end
+guidata(hObject, handles);
+
+
+
+function edit_new_negativeimage_folder_path_Callback(hObject, eventdata, handles)
+% hObject    handle to edit_new_negativeimage_folder_path (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'String') returns contents of edit_new_negativeimage_folder_path as text
+%        str2double(get(hObject,'String')) returns contents of edit_new_negativeimage_folder_path as a double
+
+
+% --- Executes during object creation, after setting all properties.
+function edit_new_negativeimage_folder_path_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to edit_new_negativeimage_folder_path (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+
+% --- Executes on button press in pushbutton_select_newnegative_images_folderpath.
+function pushbutton_select_newnegative_images_folderpath_Callback(hObject, eventdata, handles)
+% hObject    handle to pushbutton_select_newnegative_images_folderpath (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+
+% --- Executes on selection change in popupmenu_select_new_image_type.
+function popupmenu_select_new_image_type_Callback(hObject, eventdata, handles)
+% hObject    handle to popupmenu_select_new_image_type (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: contents = cellstr(get(hObject,'String')) returns popupmenu_select_new_image_type contents as cell array
+%        contents{get(hObject,'Value')} returns selected item from popupmenu_select_new_image_type
+
+
+% --- Executes during object creation, after setting all properties.
+function popupmenu_select_new_image_type_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to popupmenu_select_new_image_type (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: popupmenu controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+
+% --- Executes on button press in checkbox_new_negatives.
+function checkbox_new_negatives_Callback(hObject, eventdata, handles)
+% hObject    handle to checkbox_new_negatives (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+% Hint: get(hObject,'Value') returns toggle state of checkbox_new_negatives
+handles.value_checkbox_new_negatives = get(hObject,'Value');
+if handles.value_checkbox_new_negatives == 1
+    set(handles.checkbox_old_negatives,'enable','off');
+    set(handles.checkbox_both_negatives,'enable','off');
+    set(handles.text_new_negative_images_path,'enable','on');
+    set(handles.edit_new_negativeimage_folder_path,'enable','on');
+    set(handles.pushbutton_select_newnegative_images_folderpath,'enable','on');
+else
+    set(handles.checkbox_old_negatives,'enable','on');
+    set(handles.checkbox_both_negatives,'enable','on');
+    set(handles.text_new_negative_images_path,'enable','off');
+    set(handles.edit_new_negativeimage_folder_path,'enable','off');
+    set(handles.pushbutton_select_newnegative_images_folderpath,'enable','off');
+end
+guidata(hObject, handles);
+
+% --- Executes on button press in checkbox_old_negatives.
+function checkbox_old_negatives_Callback(hObject, eventdata, handles)
+% hObject    handle to checkbox_old_negatives (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+% Hint: get(hObject,'Value') returns toggle state of checkbox_old_negatives
+handles.value_checkbox_old_negatives = get(hObject,'Value');
+if handles.value_checkbox_old_negatives == 1
+    set(handles.checkbox_new_negatives,'enable','off');
+    set(handles.checkbox_both_negatives,'enable','off');
+    set(handles.text_background_images_folder_path,'enable','on');
+    set(handles.edit_background_images_folder_path,'enable','on');
+    set(handles.pushbutton_select_background_images,'enable','on');
+else
+    set(handles.checkbox_new_negatives,'enable','on');
+    set(handles.checkbox_both_negatives,'enable','on');
+    set(handles.text_background_images_folder_path,'enable','off');
+    set(handles.edit_background_images_folder_path,'enable','off');
+    set(handles.pushbutton_select_background_images,'enable','off');
+end
+guidata(hObject, handles);
+
+
+% --- Executes on button press in checkbox_both_negatives.
+function checkbox_both_negatives_Callback(hObject, eventdata, handles)
+% hObject    handle to checkbox_both_negatives (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+% Hint: get(hObject,'Value') returns toggle state of checkbox_both_negatives
+handles.value_checkbox_both_negatives = get(hObject,'Value');
+if handles.value_checkbox_both_negatives == 1
+    set(handles.checkbox_new_negatives,'enable','off');
+    set(handles.checkbox_old_negatives,'enable','off');
+    set(handles.text_background_images_folder_path,'enable','on');
+    set(handles.edit_background_images_folder_path,'enable','on');
+    set(handles.pushbutton_select_background_images,'enable','on');
+    set(handles.text_new_negative_images_path,'enable','on');
+    set(handles.edit_new_negativeimage_folder_path,'enable','on');
+    set(handles.pushbutton_select_newnegative_images_folderpath,'enable','on');
+else
+    set(handles.checkbox_new_negatives,'enable','on');
+    set(handles.checkbox_old_negatives,'enable','on');
+    set(handles.text_background_images_folder_path,'enable','off');
+    set(handles.edit_background_images_folder_path,'enable','off');
+    set(handles.pushbutton_select_background_images,'enable','off');
+    set(handles.text_new_negative_images_path,'enable','off');
+    set(handles.edit_new_negativeimage_folder_path,'enable','off');
+    set(handles.pushbutton_select_newnegative_images_folderpath,'enable','off');
+end
 guidata(hObject, handles);

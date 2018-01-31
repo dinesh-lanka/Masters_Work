@@ -37,6 +37,9 @@ else
     else
         trainingSize = 'Auto';
     end
+    % Adding the .xml extension to classifier file name
+    classifierFileName = [classifierFileName '.xml'];
+    
     % Change path to the destination path for writing the classifier file
     cd(classifierDestinationPath);
     
@@ -52,11 +55,11 @@ else
     % Selecting postive instances
     positiveInstances=info(:,1:length(info));
     
-    classifierFileName = [classifierFileName '.xml'];
     % Training the cascade classifier
-    trainCascadeObjectDetector(classifierFileName,positiveInstances,negativeFolder,...
-        'ObjectTrainingSize',trainingSize,'NegativeSamplesFactor',negativeSamplesFactor,'FalseAlarmRate',falseAlarmRate,...
-        'TruePositiveRate',truePositiveRate,'NumCascadeStages',numOfStages,'FeatureType',featureType);
+    trainCascadeDetectorForInputObject( classifierFileName,positiveInstances,negativeFolder,trainingSize,negativeSamplesFactor,falseAlarmRate,truePositiveRate,numOfStages,featureType );
+    %     trainCascadeObjectDetector(classifierFileName,positiveInstances,negativeFolder,...
+    %         'ObjectTrainingSize',trainingSize,'NegativeSamplesFactor',negativeSamplesFactor,'FalseAlarmRate',falseAlarmRate,...
+    %         'TruePositiveRate',truePositiveRate,'NumCascadeStages',numOfStages,'FeatureType',featureType);
 end
 end
 
