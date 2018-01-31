@@ -22,7 +22,7 @@ function varargout = gui_Cascade_Training(varargin)
 
 % Edit the above text to modify the response to help gui_Cascade_Training
 
-% Last Modified by GUIDE v2.5 26-Nov-2017 20:29:47
+% Last Modified by GUIDE v2.5 29-Jan-2018 19:23:32
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -54,6 +54,8 @@ function gui_Cascade_Training_OpeningFcn(hObject, eventdata, handles, varargin)
 
 % Choose default command line output for gui_Cascade_Training
 handles.output = hObject;
+handles.value_edit_newimage_folder_path = cd;
+set(handles.edit_newimage_folder_path,'string',handles.value_edit_newimage_folder_path);
 handles.value_edit_image_folder_path = cd;
 set(handles.edit_image_folder_path,'string',handles.value_edit_image_folder_path);
 handles.value_edit_progress_bar = 'Cascade Trainer started';
@@ -278,7 +280,7 @@ function pushbutton_create_image_list_Callback(hObject, eventdata, handles)
 % hObject    handle to pushbutton_create_image_list (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-createImageList(handles.value_edit_image_folder_path,handles.image_type,handles.value_edit_destination_folder,handles.value_edit_imageList_filename);
+createImageList(handles.value_edit_newimage_folder_path,handles.value_edit_image_folder_path,handles.image_type,handles.value_edit_destination_folder,handles.value_edit_imageList_filename);
 handles.value_edit_image_list_absolute_path = fullfile([handles.value_edit_destination_folder '\' handles.value_edit_imageList_filename '.mat']);
 set(handles.edit_image_list_absolute_path,'string',handles.value_edit_image_list_absolute_path);
 handles.value_edit_progress_bar = 'Image List created and saved';
@@ -581,3 +583,38 @@ function edit_true_positive_rate_CreateFcn(hObject, eventdata, handles)
 if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
     set(hObject,'BackgroundColor','white');
 end
+
+
+
+function edit_newimage_folder_path_Callback(hObject, eventdata, handles)
+% hObject    handle to edit_newimage_folder_path (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'String') returns contents of edit_newimage_folder_path as text
+%        str2double(get(hObject,'String')) returns contents of edit_newimage_folder_path as a double
+
+
+% --- Executes during object creation, after setting all properties.
+function edit_newimage_folder_path_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to edit_newimage_folder_path (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+
+% --- Executes on button press in pushbutton_select_newfolder_path.
+function pushbutton_select_newfolder_path_Callback(hObject, eventdata, handles)
+% hObject    handle to pushbutton_select_newfolder_path (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+handles.value_edit_newimage_folder_path = setFolderPath;
+set(handles.edit_newimage_folder_path,'string',handles.value_edit_newimage_folder_path);
+handles.value_edit_progress_bar = 'Images directory for new images to be trained with, selected';
+set(handles.edit_progress_bar,'string',handles.value_edit_progress_bar);
+guidata(hObject, handles);
