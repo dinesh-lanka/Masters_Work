@@ -29,14 +29,30 @@ if nargin < 11
     disp('positiveImageList: List of Positive Samples arranged into a mat file consisting of a structure "info" with two fields. The first field (column) is named "imageFilename" and consists of the absolute path of positive image file and the second field is "objectBoundingBoxes" and consists of a row array with details of a rectangle bounding the object under interest and its size, in the order (x,y,w,h). ');
     disp('truePositiveRate: The true positive rate is the fraction of correctly classified positive training samples and and it is a value in the range(0 1]. A value of 0.999 would yield a calssifier with higher true positive detection rates.');
 else
+    if ~isa(numOfStages, 'numeric')
+        numOfStages = str2double(numOfStages);
+    end
     
-    [~, status] = str2num(objectTrainingSize);
-    if status
+    if ~isa(negativeSamplesFactor, 'numeric')
+        negativeSamplesFactor = str2double(negativeSamplesFactor);
+    end
+    
+    if ~isa(falseAlarmRate, 'numeric')
+        falseAlarmRate = str2double(falseAlarmRate);
+    end
+    
+    if ~isa(truePositiveRate, 'numeric')
+        truePositiveRate = str2double(truePositiveRate);
+    end
+    
+    flag2 = str2double(objectTrainingSize);
+    if ~isnan(flag2)
         objectTrainingSize = str2double(objectTrainingSize);
         trainingSize = [objectTrainingSize objectTrainingSize];
     else
         trainingSize = 'Auto';
     end
+    
     % Adding the .xml extension to classifier file name
     classifierFileName = [classifierFileName '.xml'];
     
@@ -56,10 +72,10 @@ else
     positiveInstances=info(:,1:length(info));
     
     % Training the cascade classifier
-    trainCascadeDetectorForInputObject( classifierFileName,positiveInstances,negativeFolder,trainingSize,negativeSamplesFactor,falseAlarmRate,truePositiveRate,numOfStages,featureType );
-    %     trainCascadeObjectDetector(classifierFileName,positiveInstances,negativeFolder,...
-    %         'ObjectTrainingSize',trainingSize,'NegativeSamplesFactor',negativeSamplesFactor,'FalseAlarmRate',falseAlarmRate,...
-    %         'TruePositiveRate',truePositiveRate,'NumCascadeStages',numOfStages,'FeatureType',featureType);
+    % trainCascadeDetectorForInputObject( classifierFileName,positiveInstances,negativeFolder,trainingSize,negativeSamplesFactor,falseAlarmRate,truePositiveRate,numOfStages,featureType );
+    trainCascadeObjectDetector(classifierFileName,positiveInstances,negativeFolder,...
+        'ObjectTrainingSize',trainingSize,'NegativeSamplesFactor',negativeSamplesFactor,'FalseAlarmRate',falseAlarmRate,...
+        'TruePositiveRate',truePositiveRate,'NumCascadeStages',numOfStages,'FeatureType',featureType);
 end
 end
 
